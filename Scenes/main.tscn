@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_m2mx2"]
 [ext_resource type="Texture2D" uid="uid://cj4oj3xj0o2d7" path="res://Assets/Grid.png" id="2_k2e0u"]
 [ext_resource type="Texture2D" uid="uid://du2cai2bt5yas" path="res://Assets/Tetris.png" id="4_4h4y2"]
-[ext_resource type="PackedScene" uid="uid://8s4slmoiglsv" path="res://hud.tscn" id="5_d4gg1"]
+[ext_resource type="PackedScene" uid="uid://8s4slmoiglsv" path="res://Scenes/hud.tscn" id="5_d4gg1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_44cv4"]
 texture = ExtResource("4_4h4y2")
