@@ -1,0 +1,74 @@
+[gd_scene load_steps=8 format=3 uid="uid://dlv18o35m3r1i"]
+
+[ext_resource type="Texture2D" uid="uid://cpji8c7sck8l" path="res://Assets/Border.png" id="1_i2paf"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_m2mx2"]
+[ext_resource type="Texture2D" uid="uid://cj4oj3xj0o2d7" path="res://Assets/Grid.png" id="2_k2e0u"]
+[ext_resource type="Texture2D" uid="uid://du2cai2bt5yas" path="res://Assets/Tetris.png" id="4_4h4y2"]
+[ext_resource type="PackedScene" uid="uid://8s4slmoiglsv" path="res://hud.tscn" id="5_d4gg1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_44cv4"]
+texture = ExtResource("4_4h4y2")
+separation = Vector2i(1, 0)
+texture_region_size = Vector2i(48, 48)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hmi53"]
+tile_size = Vector2i(48, 48)
+sources/0 = SubResource("TileSetAtlasSource_44cv4")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_m2mx2")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="Border" type="TextureRect" parent="."]
+offset_left = -256.0
+offset_top = -496.0
+offset_right = 1794.0
+offset_bottom = 3474.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_i2paf")
+
+[node name="GridTexture" type="TextureRect" parent="Border"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -961.0
+offset_top = -1921.0
+offset_right = 959.0
+offset_bottom = 1928.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_k2e0u")
+stretch_mode = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_hmi53")
+format = 2
+layer_0/name = "foregroun"
+
+[node name="TetrominoDownTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="HUD" parent="." instance=ExtResource("5_d4gg1")]
+
+[node name="InputTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
+[connection signal="spawn_new_tetromino" from="HUD" to="." method="spawn_tetromino_random"]
+[connection signal="tetromino_stop_down" from="HUD" to="." method="stop_tetromino_down"]
+[connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]

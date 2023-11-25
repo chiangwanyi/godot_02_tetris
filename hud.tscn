@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://8s4slmoiglsv"]
+
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_3otb2"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_3otb2")
+
+[node name="Test_Spawn_Tetromino" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 43.0
+grow_vertical = 0
+text = "New"
+
+[node name="Test_Tetromino_Stop_Down" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -21.5
+offset_top = -31.0
+offset_right = 21.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Stop Down"
+
+[connection signal="pressed" from="Test_Spawn_Tetromino" to="." method="_on_test_spawn_tetromino_pressed"]
+[connection signal="pressed" from="Test_Tetromino_Stop_Down" to="." method="_on_test_tetromino_stop_down_pressed"]
