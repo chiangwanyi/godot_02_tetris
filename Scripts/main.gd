@@ -9,19 +9,25 @@ extends Node
 # 游戏TileMap区域
 var bounds = {
 	# X轴范围，方块Tile坐标不超过以下值
-	"x": [-5, 4],
+	"x": [-6, 5],
 	# Y轴范围，方块Tile坐标不超过以下值
-	"y": [-10, 9]
+	"y": [-13, 12]
 }
 
+# 绘制的TileMap layer
+var layer = 1
+
 # 已固定的方块坐标
-var fixed_cells = []
+var fixed_cells : Array[Vector2i] = []
 
 # 当前方块类型
-var current_tetromino_type
+var current_tetromino_type : Shared.Tetromino
 
-# 当前方块的root块Tile坐标
-var current_tetromino_root_pos
+# 当前方块的root块坐标
+var current_tetromino_root_pos : Vector2i
+
+# 当前是否存在正在移动的方块
+var has_movement_tetromino = false
 
 var can_input = false
 
@@ -31,8 +37,13 @@ func _ready():
 	spawn_tetromino_random()
 	reset_input_timer()
 
+# 随机生成一种方块
 func spawn_tetromino_random():
+	if has_movement_tetromino:
+		return
+	# 随机生成一种方块
 	current_tetromino_type = Shared.Tetromino.values().pick_random()
+	has_movement_tetromino = true
 	spawn_tetromino(current_tetromino_type)
 
 # 生成方块
@@ -44,12 +55,12 @@ func spawn_tetromino(type: Shared.Tetromino):
 # 清除当前方块Tiles
 func clear_current_tetromino():
 	for cell in Shared.cells[current_tetromino_type]:
-		grid.set_cell(0, current_tetromino_root_pos + cell, -1, Shared.tiles_pos[current_tetromino_type])
+		grid.set_cell(layer, current_tetromino_root_pos + cell, -1, Shared.tiles_pos[current_tetromino_type])
 
 # 绘制当前方块Tiles
 func draw_tetromino(type: Shared.Tetromino, tetromino_root_pos: Vector2i):
 	for cell in Shared.cells[type]:
-		grid.set_cell(0, tetromino_root_pos + cell, 0, Shared.tiles_pos[type])
+		grid.set_cell(layer, tetromino_root_pos + cell, 0, Shared.tiles_pos[type])
 
 func stop_tetromino_down():
 	if tetromino_down_timer.is_stopped():
@@ -59,7 +70,7 @@ func stop_tetromino_down():
 
 # 当前方块下落
 func down_tetromino():
-	if current_tetromino_root_pos == null:
+	if not has_movement_tetromino:
 		return
 	
 	# 尝试移动方块
@@ -99,7 +110,7 @@ func fix_current_tetromino():
 			
 	tetromino_down_timer.start(1)
 			
-	current_tetromino_root_pos = null
+	current_tetromino_root_pos = Vector2i.ZERO
 
 func is_cell_fixed(pos: Vector2i) -> bool:
 	return fixed_cells.has(pos)
@@ -172,7 +183,7 @@ func rotate_tetromino_clockwise():
 	else:
 		draw_tetromino(current_tetromino_type, current_tetromino_root_pos)
 
-func _process(delta):
+func _process(_delta):
 	if can_input:
 		if Input.is_action_pressed("move_right"):
 			move_tetromino_right()
