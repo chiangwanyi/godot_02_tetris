@@ -6,6 +6,8 @@ extends Node
 @onready var input_timer = $InputTimer
 @onready var tetromino_down_timer = $TetrominoDownTimer
 
+var state = Shared.GameState.READY
+
 # 游戏TileMap区域
 var bounds = {
 	# X轴范围，方块Tile坐标不超过以下值
@@ -36,6 +38,23 @@ var droped = false
 func _ready():
 	spawn_tetromino_random()
 	reset_input_timer()
+
+func set_game_state(new_state):
+	# 设置游戏状态
+	state = new_state
+	match state:
+		Shared.GameState.READY:
+			# 准备游戏
+			pass
+		Shared.GameState.PLAYING:
+			# 开始游戏
+			pass
+		Shared.GameState.PAUSED:
+			# 暂停游戏
+			pass
+		Shared.GameState.GAME_OVER:
+			# 游戏结束逻辑
+			pass	
 
 # 随机生成一种方块
 func spawn_tetromino_random():

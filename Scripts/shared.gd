@@ -1,9 +1,10 @@
 extends Node
 
 # 七种不同形状的方块
-enum Tetromino {
-	I, J, L, O, S, T, Z
-}
+enum Tetromino { I, J, L, O, S, T, Z}
+
+# 定义游戏状态
+enum GameState { READY, PLAYING, PAUSED, GAME_OVER }
 
 # 每种tetromino的初始格子布局，数值第0项表示root块（R块），之后的项分别表示其他块（O块）与R块的相对距离
 var cells = {
