@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://8s4slmoiglsv"]
+[gd_scene load_steps=3 format=3 uid="uid://8s4slmoiglsv"]
 
 [ext_resource type="Script" path="res://Scripts/hud.gd" id="1_3otb2"]
+[ext_resource type="FontFile" uid="uid://dm2lpar8r2qf8" path="res://Assets/Xolonium-Regular.ttf" id="2_in84w"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_3otb2")
 
 [node name="Test_Spawn_Tetromino" type="Button" parent="."]
+visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -15,6 +17,7 @@ grow_vertical = 0
 text = "New"
 
 [node name="Test_Tetromino_Stop_Down" type="Button" parent="."]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -26,6 +29,91 @@ offset_right = 21.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "Stop Down"
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -179.0
+offset_right = 162.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_in84w")
+theme_override_font_sizes/font_size = 40
+text = "Tetris Demo"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Play" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.5
+offset_top = -23.0
+offset_right = 61.5
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_in84w")
+theme_override_font_sizes/font_size = 26
+text = "Play"
+
+[node name="Settings" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -61.5
+offset_top = -287.0
+offset_right = 61.5
+offset_bottom = -246.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_in84w")
+theme_override_font_sizes/font_size = 26
+text = "Settings"
+
+[node name="Game_Records" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -61.5
+offset_top = -227.0
+offset_right = 61.5
+offset_bottom = -186.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_in84w")
+theme_override_font_sizes/font_size = 26
+text = "Records"
+
+[node name="Exit" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -61.5
+offset_top = -167.0
+offset_right = 61.5
+offset_bottom = -126.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_in84w")
+theme_override_font_sizes/font_size = 26
+text = "Exit"
 
 [connection signal="pressed" from="Test_Spawn_Tetromino" to="." method="_on_test_spawn_tetromino_pressed"]
 [connection signal="pressed" from="Test_Tetromino_Stop_Down" to="." method="_on_test_tetromino_stop_down_pressed"]
