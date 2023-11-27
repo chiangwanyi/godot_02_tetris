@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlv18o35m3r1i"]
+[gd_scene load_steps=9 format=3 uid="uid://dlv18o35m3r1i"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_m2mx2"]
 [ext_resource type="Script" path="res://Scripts/game/game_state_machine.gd" id="2_yx03t"]
-[ext_resource type="Script" path="res://Scripts/game/state/ready.gd" id="3_rli5l"]
+[ext_resource type="Script" path="res://Scripts/game/state/ready/ready_state.gd" id="3_o4k83"]
 [ext_resource type="Texture2D" uid="uid://du2cai2bt5yas" path="res://Assets/Tetris.png" id="4_4h4y2"]
 [ext_resource type="PackedScene" uid="uid://8s4slmoiglsv" path="res://Scenes/hud.tscn" id="5_d4gg1"]
+[ext_resource type="Script" path="res://Scripts/game/state/playing/playing_state.gd" id="5_fq3lx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_44cv4"]
 texture = ExtResource("4_4h4y2")
@@ -27,12 +28,21 @@ sources/0 = SubResource("TileSetAtlasSource_44cv4")
 [node name="Main" type="Node"]
 script = ExtResource("1_m2mx2")
 
+[node name="HUD" type="Node" parent="."]
+
+[node name="Ready" parent="HUD" instance=ExtResource("5_d4gg1")]
+visible = false
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_yx03t")
 start_state = NodePath("Ready")
 
-[node name="Ready" type="Node" parent="StateMachine"]
-script = ExtResource("3_rli5l")
+[node name="Ready" type="Node" parent="StateMachine" node_paths=PackedStringArray("hud")]
+script = ExtResource("3_o4k83")
+hud = NodePath("../../HUD/Ready")
+
+[node name="Playing" type="Node" parent="StateMachine"]
+script = ExtResource("5_fq3lx")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
@@ -53,13 +63,9 @@ layer_1/tile_data = PackedInt32Array()
 [node name="TetrominoDownTimer" type="Timer" parent="."]
 autostart = true
 
-[node name="HUD" parent="." instance=ExtResource("5_d4gg1")]
-
 [node name="InputTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 
 [connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
-[connection signal="spawn_new_tetromino" from="HUD" to="." method="spawn_tetromino_random"]
-[connection signal="tetromino_stop_down" from="HUD" to="." method="stop_tetromino_down"]
 [connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]
