@@ -1,7 +1,5 @@
-extends Node
 # 所有状态的基类
-
-class_name IState
+class_name IState extends Node
 
 # warning-ignore:unused_signal
 signal finished(next_state_name)

@@ -1,7 +1,5 @@
-extends Node
 # 所有状态机的基类
-
-class_name IStateMachine
+class_name IStateMachine extends Node
 
 signal state_changed(current_state)
 
@@ -23,9 +21,14 @@ var _active = false:
 		_active = value
 		set_active(value)
 
+func get_class_name():
+	return "state_machine"		
+
 # 设置状态机状态
 func set_active(value):
-	print("<state_machine>[set_active] 设置状态机状态:", value)
+	Logger.info(self, "1", [])
+	print(get_script().resource_path)
+	print("<state_machine>[set_active] 设置状态机状态:", value, get_class())
 	set_physics_process(value)
 	set_process_input(value)
 	if not _active:

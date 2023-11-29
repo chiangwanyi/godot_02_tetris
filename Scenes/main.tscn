@@ -61,7 +61,6 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
 
 [node name="TetrominoDownTimer" type="Timer" parent="."]
-autostart = true
 
 [node name="InputTimer" type="Timer" parent="."]
 wait_time = 0.1

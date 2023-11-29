@@ -34,7 +34,7 @@ static func _log(caller:String, message, level):
 static func debug(caller:String, message: String):
 	_log(caller, message, LogLevel.DEBUG)
 
-static func info(caller: Node, message: String):
+static func info(caller: Node, message: String, args: Array):
 	_log(caller.get_class_name(), message, LogLevel.INFO)
 
 static func warn(caller:String, message: String):
