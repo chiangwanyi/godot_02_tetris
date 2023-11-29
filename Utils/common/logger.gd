@@ -9,12 +9,7 @@ enum LogLevel {
 	FATAL
 }
 
-var caller: String
-
-func _init(_caller: String):
-	self.caller = _caller
-
-func _log(message, level):
+static func _log(caller:String, message, level):
 	var level_string : String
 
 	match level:
@@ -36,20 +31,20 @@ func _log(message, level):
 
 	print("[%s] [%s] [%s] %s" % [timestamp, level_string, caller, message])
 
-func debug(message: String):
-	_log(message, LogLevel.DEBUG)
+static func debug(caller:String, message: String):
+	_log(caller, message, LogLevel.DEBUG)
 
-func info(message: String):
-	_log(message, LogLevel.INFO)
+static func info(caller: Node, message: String):
+	_log(caller.get_class_name(), message, LogLevel.INFO)
 
-func warn(message: String):
-	_log(message, LogLevel.WARN)
+static func warn(caller:String, message: String):
+	_log(caller, message, LogLevel.WARN)
 
-func error(message: String):
-	_log(message, LogLevel.ERROR)
+static func error(caller:String, message: String):
+	_log(caller, message, LogLevel.ERROR)
 
-func fatal(message: String):
-	_log(message, LogLevel.FATAL)
+static func fatal(caller:String, message: String):
+	_log(caller, message, LogLevel.FATAL)
 
 
 
