@@ -4,6 +4,9 @@ class_name IState extends Node
 # warning-ignore:unused_signal
 signal finished(next_state_name)
 
+func get_class_name():
+	pass
+
 # 状态进入时. E.g. change the animation.
 func enter():
 	pass
