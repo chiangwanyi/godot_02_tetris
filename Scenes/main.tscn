@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dlv18o35m3r1i"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_m2mx2"]
-[ext_resource type="Script" path="res://Scripts/game/hud/ready/ready_hud.gd" id="2_8jv4t"]
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="2_02vr8"]
 [ext_resource type="Script" path="res://Scripts/game/game_state_machine.gd" id="2_yx03t"]
 [ext_resource type="FontFile" uid="uid://dm2lpar8r2qf8" path="res://Assets/Xolonium-Regular.ttf" id="3_6tk8q"]
 [ext_resource type="Script" path="res://Scripts/game/state/ready/ready_state.gd" id="3_o4k83"]
@@ -49,9 +49,9 @@ sources/0 = SubResource("TileSetAtlasSource_44cv4")
 script = ExtResource("1_m2mx2")
 
 [node name="HUD" type="Node" parent="."]
+script = ExtResource("2_02vr8")
 
 [node name="Ready" type="CanvasLayer" parent="HUD"]
-script = ExtResource("2_8jv4t")
 
 [node name="Title" type="Label" parent="HUD/Ready"]
 anchors_preset = 5
@@ -333,6 +333,6 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
 
-[connection signal="pressed" from="HUD/Ready/Play" to="HUD/Ready" method="_on_play_pressed" flags=18]
+[connection signal="pressed" from="HUD/Ready/Play" to="HUD" method="_on_play_pressed"]
 [connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
 [connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]
