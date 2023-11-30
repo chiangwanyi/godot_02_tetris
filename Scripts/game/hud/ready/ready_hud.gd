@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var game_state_machine = $"../../StateMachine"
+@onready var game_state_machine = $"../../GameStateMachine"
 
 func _ready():
 	pass
