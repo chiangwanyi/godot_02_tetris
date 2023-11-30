@@ -9,6 +9,21 @@ enum LogLevel {
 	FATAL
 }
 
+static func _format_message(message: String, args: Array) -> String:
+	var index = 0
+	while "{}" in message and index < args.size():
+		# 用参数替换字符串中的第一个 {}
+		message = message.replace("{}", str(args[index]))
+		index += 1
+
+    # 如果还有未使用的参数，将它们追加到字符串末尾
+	while index < args.size():
+		message += " " + str(args[index])
+		index += 1
+
+	return message
+
+
 static func _log(caller:String, message, level):
 	var level_string : String
 
@@ -35,16 +50,16 @@ static func debug(caller:String, message: String):
 	_log(caller, message, LogLevel.DEBUG)
 
 static func info(caller: Node, message: String, args: Array):
-	_log(caller.get_class_name(), message, LogLevel.INFO)
+	_log(caller.get_class_name(), _format_message(message, args), LogLevel.INFO)
 
-static func warn(caller:String, message: String):
-	_log(caller, message, LogLevel.WARN)
+static func warn(caller: Node, message: String, args: Array):
+	_log(caller.get_class_name(), _format_message(message, args), LogLevel.WARN)
 
-static func error(caller:String, message: String):
-	_log(caller, message, LogLevel.ERROR)
+static func error(caller: Node, message: String, args: Array):
+	_log(caller.get_class_name(), _format_message(message, args), LogLevel.ERROR)
 
-static func fatal(caller:String, message: String):
-	_log(caller, message, LogLevel.FATAL)
+static func fatal(caller: Node, message: String, args: Array):
+	_log(caller.get_class_name(), _format_message(message, args), LogLevel.FATAL)
 
 
 

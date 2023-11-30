@@ -26,9 +26,7 @@ func get_class_name():
 
 # 设置状态机状态
 func set_active(value):
-	Logger.info(self, "1", [])
-	print(get_script().resource_path)
-	print("<state_machine>[set_active] 设置状态机状态:", value, get_class())
+	Logger.info(self, "set_active:{}", [value])
 	set_physics_process(value)
 	set_process_input(value)
 	if not _active:
