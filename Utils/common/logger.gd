@@ -34,7 +34,7 @@ static func _log(caller:String, message, level):
 	var timestamp = "%d-%02d-%02d %02d:%02d:%02d" % [current_time.year, current_time.month, current_time.day, current_time.hour, current_time.minute, current_time.second]
 
 	print("[%s] [%s] [%s] %s" % [timestamp, level_string, caller, message])
-
+	
 static func debug(caller, message: String, args: Array):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.DEBUG)
 
@@ -49,7 +49,3 @@ static func error(caller, message: String, args: Array):
 
 static func fatal(caller, message: String, args: Array):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.FATAL)
-
-
-
-
