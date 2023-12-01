@@ -23,6 +23,9 @@ var fixed_cells : Array[Vector2i] = []
 func get_class_name():
 	return "grid"
 
+func set_tetromino(block: Block)-> bool:
+	return false
+
 # 绘制当前方块Tiles
 func draw_tetromino(block: Block):
 	var cell = Shared.cells[block.type]
@@ -30,6 +33,3 @@ func draw_tetromino(block: Block):
 		for j in range(cell[i].size()):
 			if cell[i][j] == 1:
 				set_cell(layer, origin_pos + block_spawn_pos + Vector2i(j, i), 0, Shared.tiles_pos[block.type])
-
-# 		grid.set_cell(layer, tetromino_root_pos + cell, 0, Shared.tiles_pos[type])
-

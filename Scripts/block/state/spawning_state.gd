@@ -8,6 +8,9 @@ func get_class_name():
 func enter():
 	var block = Block.new()
 	Logger.info(self, "随机生成Block:{}", [block.type])
-	grid.draw_tetromino(block)
+	if grid.set_tetromino(block):
+		emit_signal("finished", "moving")
+	else:
+		emit_signal("finished", "die")
 
 	
