@@ -1,6 +1,6 @@
 extends "res://Utils/state_machine/state.gd"
 
-@onready var score_value : Label = $"../../../HUD/Score/Panel/ScoreValue"
+@onready var score_value : Label = $"../../HUD/Score/Panel/ScoreValue"
 
 var score = 0
 var level = 0

@@ -1,6 +1,6 @@
 extends Node
 
-@onready var game_state_machine = $"../StateMachine/Game"
+@onready var game_state_machine = $"../GameStateMachine"
 
 func _ready():
 	pass

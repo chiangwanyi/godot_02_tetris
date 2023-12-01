@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://Scripts/hud.gd" id="2_02vr8"]
 [ext_resource type="Script" path="res://Scripts/game/game_state_machine.gd" id="2_yx03t"]
 [ext_resource type="FontFile" uid="uid://dm2lpar8r2qf8" path="res://Assets/Xolonium-Regular.ttf" id="3_6tk8q"]
-[ext_resource type="Script" path="res://Scripts/game/state/ready/ready_state.gd" id="3_o4k83"]
 [ext_resource type="Texture2D" uid="uid://du2cai2bt5yas" path="res://Assets/Tetris.png" id="4_4h4y2"]
-[ext_resource type="Script" path="res://Scripts/game/state/playing/playing_state.gd" id="5_fq3lx"]
+[ext_resource type="Script" path="res://Scripts/game/state/ready_state.gd" id="6_bls8f"]
+[ext_resource type="Script" path="res://Scripts/game/state/playing_state.gd" id="7_tvux2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_88rwa"]
 texture = ExtResource("4_4h4y2")
@@ -297,19 +297,6 @@ theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
 
-[node name="StateMachine" type="Node" parent="."]
-
-[node name="Game" type="Node" parent="StateMachine"]
-script = ExtResource("2_yx03t")
-start_state = NodePath("Ready")
-
-[node name="Ready" type="Node" parent="StateMachine/Game" node_paths=PackedStringArray("hud")]
-script = ExtResource("3_o4k83")
-hud = NodePath("../../../HUD/Ready")
-
-[node name="Playing" type="Node" parent="StateMachine/Game"]
-script = ExtResource("5_fq3lx")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(336, 264)
 
@@ -334,6 +321,17 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+
+[node name="GameStateMachine" type="Node" parent="."]
+script = ExtResource("2_yx03t")
+start_state = NodePath("Ready")
+
+[node name="Ready" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("hud")]
+script = ExtResource("6_bls8f")
+hud = NodePath("../../HUD/Ready")
+
+[node name="Playing" type="Node" parent="GameStateMachine"]
+script = ExtResource("7_tvux2")
 
 [connection signal="pressed" from="HUD/Ready/Play" to="HUD" method="_on_play_pressed"]
 [connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
