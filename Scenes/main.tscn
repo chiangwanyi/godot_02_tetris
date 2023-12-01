@@ -1,12 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://dlv18o35m3r1i"]
+[gd_scene load_steps=15 format=3 uid="uid://dlv18o35m3r1i"]
 
-[ext_resource type="Script" path="res://Scripts/main.gd" id="1_m2mx2"]
 [ext_resource type="Script" path="res://Scripts/hud.gd" id="2_02vr8"]
 [ext_resource type="Script" path="res://Scripts/game/game_state_machine.gd" id="2_yx03t"]
 [ext_resource type="FontFile" uid="uid://dm2lpar8r2qf8" path="res://Assets/Xolonium-Regular.ttf" id="3_6tk8q"]
 [ext_resource type="Texture2D" uid="uid://du2cai2bt5yas" path="res://Assets/Tetris.png" id="4_4h4y2"]
+[ext_resource type="Script" path="res://Scripts/grid.gd" id="4_f17bi"]
 [ext_resource type="Script" path="res://Scripts/game/state/ready_state.gd" id="6_bls8f"]
 [ext_resource type="Script" path="res://Scripts/game/state/playing_state.gd" id="7_tvux2"]
+[ext_resource type="Script" path="res://Scripts/block/block_state_machine.gd" id="8_83uq0"]
+[ext_resource type="Script" path="res://Scripts/block/state/spawning_state.gd" id="9_8jjya"]
+[ext_resource type="Script" path="res://Scripts/block/state/idle_state.gd" id="10_kqdga"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_88rwa"]
 texture = ExtResource("4_4h4y2")
@@ -46,12 +49,12 @@ tile_size = Vector2i(48, 48)
 sources/0 = SubResource("TileSetAtlasSource_44cv4")
 
 [node name="Main" type="Node"]
-script = ExtResource("1_m2mx2")
 
 [node name="HUD" type="Node" parent="."]
 script = ExtResource("2_02vr8")
 
 [node name="Ready" type="CanvasLayer" parent="HUD"]
+visible = false
 
 [node name="Title" type="Label" parent="HUD/Ready"]
 anchors_preset = 5
@@ -306,9 +309,7 @@ position = Vector2(336, 264)
 wait_time = 0.1
 one_shot = true
 
-[node name="TileMaps" type="Node" parent="."]
-
-[node name="PlayGround" type="TileMap" parent="TileMaps"]
+[node name="Grid" type="TileMap" parent="."]
 scale = Vector2(0.5, 0.5)
 tile_set = SubResource("TileSet_hmi53")
 format = 2
@@ -321,6 +322,7 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+script = ExtResource("4_f17bi")
 
 [node name="GameStateMachine" type="Node" parent="."]
 script = ExtResource("2_yx03t")
@@ -332,6 +334,16 @@ hud = NodePath("../../HUD/Ready")
 
 [node name="Playing" type="Node" parent="GameStateMachine"]
 script = ExtResource("7_tvux2")
+
+[node name="BlockStateMachine" type="Node" parent="."]
+script = ExtResource("8_83uq0")
+start_state = NodePath("Idle")
+
+[node name="Spawning" type="Node" parent="BlockStateMachine"]
+script = ExtResource("9_8jjya")
+
+[node name="Idle" type="Node" parent="BlockStateMachine"]
+script = ExtResource("10_kqdga")
 
 [connection signal="pressed" from="HUD/Ready/Play" to="HUD" method="_on_play_pressed"]
 [connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]

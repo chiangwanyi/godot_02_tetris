@@ -7,7 +7,7 @@ var level = 0
 var lines = 0
 
 func get_class_name():
-	return "playing"
+	return "game_state:playing"
 
 func enter():
 	Logger.info(self, "开始游戏", [])

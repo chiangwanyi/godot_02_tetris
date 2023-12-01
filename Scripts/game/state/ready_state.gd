@@ -3,7 +3,7 @@ extends "res://Utils/state_machine/state.gd"
 @export var hud: CanvasLayer
 
 func get_class_name():
-	return "ready"
+	return "game_state:ready"
 
 func enter():
 	Logger.info(self, "游戏启动", [])

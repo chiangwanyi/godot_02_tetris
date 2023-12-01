@@ -1,5 +1,7 @@
 extends Node
 
+
+
 # # 游戏TileMap
 # @onready var grid = $TileMap
 
@@ -8,19 +10,11 @@ extends Node
 
 # var state = Shared.GameState.READY
 
-# # 游戏TileMap区域
-# var bounds = {
-# 	# X轴范围，方块Tile坐标不超过以下值
-# 	"x": [-6, 5],
-# 	# Y轴范围，方块Tile坐标不超过以下值
-# 	"y": [-13, 12]
-# }
 
-# # 绘制的TileMap layer
-# var layer = 1
 
-# # 已固定的方块坐标
-# var fixed_cells : Array[Vector2i] = []
+
+
+
 
 # # 当前方块类型
 # var current_tetromino_type : Shared.Tetromino
@@ -111,10 +105,7 @@ extends Node
 # 	for cell in Shared.cells[current_tetromino_type]:
 # 		grid.set_cell(layer, current_tetromino_root_pos + cell, -1, Shared.tiles_pos[current_tetromino_type])
 
-# # 绘制当前方块Tiles
-# func draw_tetromino(type: Shared.Tetromino, tetromino_root_pos: Vector2i):
-# 	for cell in Shared.cells[type]:
-# 		grid.set_cell(layer, tetromino_root_pos + cell, 0, Shared.tiles_pos[type])
+
 
 # func stop_tetromino_down():
 # 	if tetromino_down_timer.is_stopped():
