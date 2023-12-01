@@ -297,15 +297,17 @@ theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
 
-[node name="GameStateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="."]
+
+[node name="Game" type="Node" parent="StateMachine"]
 script = ExtResource("2_yx03t")
 start_state = NodePath("Ready")
 
-[node name="Ready" type="Node" parent="GameStateMachine" node_paths=PackedStringArray("hud")]
+[node name="Ready" type="Node" parent="StateMachine/Game" node_paths=PackedStringArray("hud")]
 script = ExtResource("3_o4k83")
-hud = NodePath("../../HUD/Ready")
+hud = NodePath("../../../HUD/Ready")
 
-[node name="Playing" type="Node" parent="GameStateMachine"]
+[node name="Playing" type="Node" parent="StateMachine/Game"]
 script = ExtResource("5_fq3lx")
 
 [node name="Camera2D" type="Camera2D" parent="."]

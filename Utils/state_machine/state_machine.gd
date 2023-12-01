@@ -51,7 +51,7 @@ func _enter_tree():
 
 # 初始化状态机
 func initialize(initial_state):
-	Logger.info(self, "开始初始化状态机，初始状态：{}", [initial_state])
+	Logger.info(self, "初始化状态机，初始状态：{}", [initial_state])
 	_active = true
 	states_stack.push_front(get_node(initial_state))
 	current_state = states_stack[0]
@@ -73,7 +73,7 @@ func _on_animation_finished(anim_name):
 
 
 func _change_state(state_name):
-	Logger.info(self, "状态切换：{} -> {}.", [current_state.get_class_name(), state_name])
+	Logger.info(self, "状态切换：{} -> {}", [current_state.get_class_name(), state_name])
 	if not _active:
 		return
 	current_state.exit()

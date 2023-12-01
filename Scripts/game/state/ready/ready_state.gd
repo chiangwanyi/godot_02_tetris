@@ -6,6 +6,7 @@ func get_class_name():
 	return "ready"
 
 func enter():
+	Logger.info(self, "游戏启动", [])
 	hud.show()
 	
 func exit():
