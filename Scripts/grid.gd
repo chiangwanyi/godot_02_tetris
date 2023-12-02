@@ -1,7 +1,7 @@
 class_name Grid extends TileMap
 
 # Grid原点相对于TileMap的位置
-var origin_pos: Vector2i = Vector2i(9, 1)
+var origin_of_tilemap: Vector2i = Vector2i(9, 1)
 
 # block生成的坐标点（左上角）
 var block_spawn_pos: Vector2i = Vector2i(3, 0)
@@ -17,19 +17,17 @@ var layer = 1
 # 	"y": [1, 20]
 # }
 
-# 已固定的方块坐标
-var fixed_cells : Array[Vector2i] = []
+var grid_matrix : Matrix2D = Matrix2D.new(10, 20)
 
 func get_class_name():
 	return "grid"
 
 func set_tetromino(block: Block)-> bool:
-	return false
+	draw_tetromino(block)
+	return true
 
 # 绘制当前方块Tiles
 func draw_tetromino(block: Block):
-	var cell = Shared.cells[block.type]
-	for i in range(cell.size()):
-		for j in range(cell[i].size()):
-			if cell[i][j] == 1:
-				set_cell(layer, origin_pos + block_spawn_pos + Vector2i(j, i), 0, Shared.tiles_pos[block.type])
+	for cell in Shared.cells[block.type].filter_value(1):
+		var pos = origin_of_tilemap + block_spawn_pos + cell
+		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])

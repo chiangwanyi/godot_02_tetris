@@ -4,42 +4,42 @@ extends Node
 enum Tetromino { I, J, L, O, S, T, Z}
 
 var cells = {
-	Tetromino.I: [
+	Tetromino.I: Matrix2D.new(4, 4, 0, [
 		[0, 0, 0, 0],
 		[1, 1, 1, 1],
 		[0, 0, 0, 0],
 		[0, 0, 0, 0]
-	],
-	Tetromino.J: [
+	]),
+	Tetromino.J: Matrix2D.new(3, 3, 0, [
 		[1, 0, 0],
 		[1, 1, 1],
 		[0, 0, 0]
-	],
-	Tetromino.L: [
+	]),
+	Tetromino.L: Matrix2D.new(3, 3, 0, [
 		[0, 0, 1],
 		[1, 1, 1],
 		[0, 0, 0]
-	],
-	Tetromino.O: [
+	]),
+	Tetromino.O: Matrix2D.new(3, 3, 0, [
 		[0, 1, 1],
 		[0, 1, 1],
 		[0, 0, 0]
-	],
-	Tetromino.S: [
+	]),
+	Tetromino.S: Matrix2D.new(3, 3, 0, [
 		[0, 1, 1],
 		[1, 1, 0],
 		[0, 0, 0]
-	],
-	Tetromino.T: [
+	]),
+	Tetromino.T: Matrix2D.new(3, 3, 0, [
 		[0, 1, 0],
 		[1, 1, 1],
 		[0, 0, 0]
-	],
-	Tetromino.Z: [
+	]),
+	Tetromino.Z: Matrix2D.new(3, 3, 0, [
 		[1, 1, 0],
 		[0, 1, 1],
 		[0, 0, 0]
-	]
+	])
 }
 
 # 每种tetromino的tile图集坐标

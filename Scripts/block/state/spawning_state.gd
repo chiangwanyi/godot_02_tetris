@@ -7,9 +7,10 @@ func get_class_name():
 
 func enter():
 	var block = Block.new()
-	Logger.info(self, "随机生成Block:{}", [block.type])
+	Logger.info(self, "生成Block:{}", [block.type])
 	if grid.set_tetromino(block):
-		emit_signal("finished", "moving")
+		pass
+		# emit_signal("finished", "moving")
 	else:
 		emit_signal("finished", "die")
 
