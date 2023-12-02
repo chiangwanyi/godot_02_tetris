@@ -28,15 +28,16 @@ func filter_value(target: int) -> Array[Vector2i]:
 	return result
 
 
-func get_value(x : int, y : int) -> int:
-	return data[y][x]
+func get_value(_x: int, _y: int) -> int:
+	return data[_y][_x]
 
-func set_value(x : int, y : int, value : int) -> void:
-	data[y][x] = value
+func set_value(_x: int, _y: int, value: int) -> void:
+	data[_y][_x] = value
 
 # 判断原点位于pos处的矩阵target是否与data矩阵
-func some(pos: Vector2i, target: Array)	-> bool:
-	# for i in range(target.size()):
-	# 	for j in range(target[i].size()):
-
+func has_overlap(origin: Vector2i, target: Matrix2D, value: int) -> bool:
+	for p in target.filter_value(value):
+		var pos = origin + p
+		if self.get_value(pos.x, pos.y) == value:
+			return true
 	return false

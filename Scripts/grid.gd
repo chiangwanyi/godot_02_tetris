@@ -23,8 +23,11 @@ func get_class_name():
 	return "grid"
 
 func set_tetromino(block: Block)-> bool:
-	draw_tetromino(block)
-	return true
+	if grid_matrix.has_overlap(block_spawn_pos, Shared.cells[block.type], 1):
+		draw_tetromino(block)
+		return true
+	else:
+		return false
 
 # 绘制当前方块Tiles
 func draw_tetromino(block: Block):
