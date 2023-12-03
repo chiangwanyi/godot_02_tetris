@@ -9,13 +9,7 @@ var block_spawn_pos: Vector2i = Vector2i(3, 0)
 # 绘制的TileMap layer
 var layer = 1
 
-# # 游戏TileMap区域
-# var bounds = {
-# 	# X轴范围，方块Tile坐标不超过以下值
-# 	"x": [9, 18],
-# 	# Y轴范围，方块Tile坐标不超过以下值
-# 	"y": [1, 20]
-# }
+var moving_block: Block
 
 var grid_matrix : Matrix2D = Matrix2D.new(10, 20)
 
@@ -24,10 +18,11 @@ func get_class_name():
 
 func set_tetromino(block: Block)-> bool:
 	if grid_matrix.has_overlap(block_spawn_pos, Shared.cells[block.type], 1):
+		return false
+	else:
+		moving_block = block
 		draw_tetromino(block)
 		return true
-	else:
-		return false
 
 # 绘制当前方块Tiles
 func draw_tetromino(block: Block):

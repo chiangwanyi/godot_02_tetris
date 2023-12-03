@@ -7,7 +7,7 @@ var x : int = 0
 # 行数
 var y : int = 0
 
-func _init(_x: int, _y: int, empty_value:int = 0, init_data: Array[Array] = []):
+func _init(_x: int, _y: int, empty_value: int = 0, init_data: Array[Array] = []):
 	x = _x
 	y = _y
 	for i in range(_y):

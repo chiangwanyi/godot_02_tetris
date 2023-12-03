@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dlv18o35m3r1i"]
+[gd_scene load_steps=16 format=3 uid="uid://dlv18o35m3r1i"]
 
 [ext_resource type="Script" path="res://Scripts/hud.gd" id="2_02vr8"]
 [ext_resource type="Script" path="res://Scripts/game/game_state_machine.gd" id="2_yx03t"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/block/block_state_machine.gd" id="8_83uq0"]
 [ext_resource type="Script" path="res://Scripts/block/state/spawning_state.gd" id="9_8jjya"]
 [ext_resource type="Script" path="res://Scripts/block/state/idle_state.gd" id="10_kqdga"]
+[ext_resource type="Script" path="res://Scripts/block/state/moving_state.gd" id="11_m5djt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_88rwa"]
 texture = ExtResource("4_4h4y2")
@@ -344,6 +345,9 @@ script = ExtResource("9_8jjya")
 
 [node name="Idle" type="Node" parent="BlockStateMachine"]
 script = ExtResource("10_kqdga")
+
+[node name="Moving" type="Node" parent="BlockStateMachine"]
+script = ExtResource("11_m5djt")
 
 [connection signal="pressed" from="HUD/Ready/Play" to="HUD" method="_on_play_pressed"]
 [connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
