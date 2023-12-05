@@ -6,8 +6,10 @@ var data: Array[Array] = []
 var x : int = 0
 # 行数
 var y : int = 0
-
-var ms = {}
+# 属于该矩阵的子矩阵，即矩阵A可重叠在矩阵B上，A是B的子矩阵
+var children: Array[Matrix2D] = []
+# 子矩阵原点在父矩阵的起始位置（即相对于父矩阵原点则为偏移量），key为起始位置坐标Vector2i，value为子矩阵自身Matrix2D
+var child_origin_offset = {}
 
 # _init 初始化一个 y 行 x 列的二维矩阵。
 func _init(_x: int, _y: int, default_value: Variant = 0, init_data: Array[Array] = []):
@@ -37,14 +39,23 @@ func filter_value(target: Variant) -> Array[Vector2i]:
 				result.append(Vector2i(j, i)) # 添加坐标到结果数组，注意列是x坐标，行是y坐标
 	return result
 
-# 将el放置到
-func push(origin: Vector2i, el: Matrix2D):
-	ms[el] = origin
+# # 将el矩阵加入到当前矩阵中
+# func push(origin: Vector2i, el: Matrix2D):
+# 	ms[el] = origin
+# 	for i in range(el.y):
+# 		for j in range(el.x):
+# 			set_value(origin.x + j, origin.y, el.get_value(j, i))
 	
-# 判断原点位于pos处的矩阵target是否与data矩阵
-func has_overlap(origin: Vector2i, target: Matrix2D, value: int) -> bool:
-	for p in target.filter_value(value):
-		var pos = origin + p
-		if self.get_value(pos.x, pos.y) == value:
-			return true
-	return false
+# # 判断原点位于pos处的矩阵target是否与data矩阵
+# func has_overlap(child_origin: Vector2i, target: Matrix2D, value: int) -> bool:
+# 	for p in target.filter_value(value):
+# 		var pos = child_origin + p
+# 		if self.get_value(pos.x, pos.y) == value:
+# 			return true
+# 	return false
+
+# 值是否相斥
+func is_value_exclude(v1: Variant, v2: Variant) -> bool:
+	if v1 == 0 or v2 == 0:
+		return false
+	return true
