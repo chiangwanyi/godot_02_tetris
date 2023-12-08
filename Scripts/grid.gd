@@ -22,18 +22,29 @@ func set_tetromino(block: Block)-> bool:
 		moving_block = block
 	return result
 
-# 绘制当前方块Tiles
-func draw_tetromino(block: Block):
-	for cell in Shared.cells[block.type].filter_value(1):
-		var pos = origin_of_tilemap + block_spawn_pos + cell
-		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])		
+func draw():
+	for i in range(grid_matrix.y):
+		for j in range(grid_matrix.x):
+			var pos = origin_of_tilemap + Vector2i(j, i)
+			set_cell(layer, pos, -1)
 
-func clear_tetromino(block: Block):
-	for cell in Shared.cells[block.type].filter_value(1):
-		var pos = origin_of_tilemap + block_spawn_pos + cell
-		set_cell(layer, pos, -1, Shared.tiles_pos[block.type])	
+	for i in range(grid_matrix.y):
+		for j in range(grid_matrix.x):
+			var pos = origin_of_tilemap + Vector2i(j, i)
+			if grid_matrix.data[i][j] != grid_matrix.empty_value:
+				set_cell(layer, pos, 0, Shared.tiles_pos[grid_matrix.data[i][j]])
 
-func move_tetromino(block: Block):
-	clear_tetromino(block)
-	var result = grid_matrix.move_child_matrix(block.data, Vector2i(1, 0))
-	pass
+
+# # 绘制当前方块Tiles
+# func draw_tetromino(block: Block):
+# 	for cell in Shared.cells[block.type].filter_value(1):
+# 		var pos = origin_of_tilemap + block_spawn_pos + cell
+# 		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])
+
+# func clear_tetromino(block: Block):
+# 	for cell in Shared.cells[block.type].filter_value(1):
+# 		var pos = origin_of_tilemap + block_spawn_pos + cell
+# 		set_cell(layer, pos, -1, Shared.tiles_pos[block.type])	
+
+func move_tetromino(block: Block, direction: Vector2i):
+	grid_matrix.move_child_matrix(block.data, direction)
