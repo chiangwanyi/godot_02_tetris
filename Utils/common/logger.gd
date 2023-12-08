@@ -35,17 +35,17 @@ static func _log(caller:String, message, level):
 
 	print("[%s] [%s] [%s] %s" % [timestamp, level_string, caller, message])
 	
-static func debug(caller, message: String, args: Array):
+static func debug(caller, message: String, args: Array = []):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.DEBUG)
 
-static func info(caller, message: String, args: Array):
+static func info(caller, message: String, args: Array = []):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.INFO)
 
-static func warn(caller, message: String, args: Array):
+static func warn(caller, message: String, args: Array = []):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.WARN)
 
-static func error(caller, message: String, args: Array):
+static func error(caller, message: String, args: Array = []):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.ERROR)
 
-static func fatal(caller, message: String, args: Array):
+static func fatal(caller, message: String, args: Array = []):
 	_log(caller.get_class_name(), _format_message(message, args), LogLevel.FATAL)

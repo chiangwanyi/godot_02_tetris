@@ -34,17 +34,5 @@ func draw():
 			if grid_matrix.data[i][j] != grid_matrix.empty_value:
 				set_cell(layer, pos, 0, Shared.tiles_pos[grid_matrix.data[i][j]])
 
-
-# # 绘制当前方块Tiles
-# func draw_tetromino(block: Block):
-# 	for cell in Shared.cells[block.type].filter_value(1):
-# 		var pos = origin_of_tilemap + block_spawn_pos + cell
-# 		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])
-
-# func clear_tetromino(block: Block):
-# 	for cell in Shared.cells[block.type].filter_value(1):
-# 		var pos = origin_of_tilemap + block_spawn_pos + cell
-# 		set_cell(layer, pos, -1, Shared.tiles_pos[block.type])	
-
 func move_tetromino(block: Block, direction: Vector2i):
-	grid_matrix.move_child_matrix(block.data, direction)
+	grid_matrix.move_child_matrix_orthogonally(block.data, direction)

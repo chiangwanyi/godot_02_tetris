@@ -80,11 +80,11 @@ func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 	Logger.info(self, "add child matrix successful", [])			
 	return true
 
-# 移动子矩阵
-func move_child_matrix(child: Matrix2D, direction: Vector2i) -> bool:
+# 移动子矩阵，以正交的方式
+func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> bool:
 	# 确保子矩阵在子矩阵列表中
 	if not children.has(child):
-		printerr("Error: The specified child matrix is not a child of this matrix.")
+		Logger.error(self, "The specified child matrix is not a child of this matrix.")
 		return false
 
 	# 获取当前子矩阵的位置
@@ -95,6 +95,7 @@ func move_child_matrix(child: Matrix2D, direction: Vector2i) -> bool:
 
 	# 检查新位置是否超出父矩阵边界
 	if new_position.x < 0 or new_position.x + child.x > x or new_position.y < 0 or new_position.y + child.y > y:
+		Logger.warn(self, "matrix out of bound")
 		return false
 
 	# 创建一个临时的子矩阵来模拟移动
