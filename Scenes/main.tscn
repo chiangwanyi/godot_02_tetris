@@ -304,12 +304,6 @@ horizontal_alignment = 1
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(336, 264)
 
-[node name="TetrominoDownTimer" type="Timer" parent="."]
-
-[node name="InputTimer" type="Timer" parent="."]
-wait_time = 0.1
-one_shot = true
-
 [node name="Grid" type="TileMap" parent="."]
 scale = Vector2(0.5, 0.5)
 tile_set = SubResource("TileSet_hmi53")
@@ -349,6 +343,14 @@ script = ExtResource("10_kqdga")
 [node name="Moving" type="Node" parent="BlockStateMachine"]
 script = ExtResource("11_m5djt")
 
+[node name="Timer" type="Node" parent="."]
+
+[node name="TetrominoDownTimer" type="Timer" parent="Timer"]
+wait_time = 1.5
+
+[node name="InputTimer" type="Timer" parent="Timer"]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="pressed" from="HUD/Ready/Play" to="HUD" method="_on_play_pressed"]
-[connection signal="timeout" from="TetrominoDownTimer" to="." method="down_tetromino"]
-[connection signal="timeout" from="InputTimer" to="." method="_on_input_timer_timeout"]
+[connection signal="timeout" from="Timer/InputTimer" to="." method="_on_input_timer_timeout"]

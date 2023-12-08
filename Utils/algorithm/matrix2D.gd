@@ -6,23 +6,30 @@ var data: Array[Array] = []
 var x : int = 0
 # 行数
 var y : int = 0
+# 默认空值
+var default_value: Variant = 0
 # 属于该矩阵的子矩阵，即矩阵A可重叠在矩阵B上，A是B的子矩阵
 var children: Array[Matrix2D] = []
 # 子矩阵原点在父矩阵的起始位置（即相对于父矩阵原点则为偏移量），key为起始位置坐标Vector2i，value为子矩阵自身Matrix2D
 var child_origin_offset = {}
 
 # _init 初始化一个 y 行 x 列的二维矩阵。
-func _init(_x: int, _y: int, default_value: Variant = 0, init_data: Array[Array] = []):
+func _init(_x: int, _y: int, _default_value: Variant = 0, init_data: Array[Array] = []):
 	x = _x
 	y = _y
+	default_value = _default_value
 	for i in range(_y):
 		var row = []
 		for j in range(_x):
 			if init_data.is_empty():
-				row.append(default_value)  # 初始化所有元素为0
+				row.append(_default_value)  # 初始化所有元素为0
 			else:
 				row.append(init_data[i][j])
 		data.append(row)
+
+func duplicate() -> Matrix2D:
+	var dup = Matrix2D.new(x, y, default_value, data)
+	return dup
 
 func get_value(_x: int, _y: int) -> Variant:
 	return data[_y][_x]
@@ -69,6 +76,7 @@ func print_matrix():
 func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 	# 检查子矩阵是否超出当前矩阵范围
 	if origin_offset.x < 0 or origin_offset.x + child.x > x or origin_offset.y < 0 or origin_offset.y + child.y > y:
+		Logger.warn(self, "add child matrix failed: out of bound", [])
 		return false
 
 	# 检查子矩阵是否与现有子矩阵重叠
@@ -84,7 +92,8 @@ func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 	# 更新父矩阵值
 	for i in range(child.y):
 		for j in range(child.x):
-			set_value(origin_offset.x + j, origin_offset.y + i, child.get_value(j, i))	
+			set_value(origin_offset.x + j, origin_offset.y + i, child.get_value(j, i))
+	Logger.info(self, "add child matrix successful", [])			
 	return true
 
 # 判断两个子矩阵是否不重叠
@@ -108,3 +117,6 @@ func is_non_overlapping(child1: Matrix2D, offset1: Vector2i, child2: Matrix2D, o
 						if is_value_exclude(child1.get_value(j, i), child2.get_value(l, k)):
 							return false
 	return true
+
+func get_class_name():
+	return "matrix_2d"

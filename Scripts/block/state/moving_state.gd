@@ -15,7 +15,9 @@ func update(delta):
 	elapsed_time += delta
 	if elapsed_time >= block_moving_interval:
 		Logger.info(self, "moving", [])
+		grid.draw_tetromino(grid.moving_block)
 		elapsed_time = 0
 
 func exit():
+	elapsed_time = 0
 	Logger.info(self, "exit moving", [])
