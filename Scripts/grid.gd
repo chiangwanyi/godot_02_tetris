@@ -26,4 +26,14 @@ func set_tetromino(block: Block)-> bool:
 func draw_tetromino(block: Block):
 	for cell in Shared.cells[block.type].filter_value(1):
 		var pos = origin_of_tilemap + block_spawn_pos + cell
-		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])
+		set_cell(layer, pos, 0, Shared.tiles_pos[block.type])		
+
+func clear_tetromino(block: Block):
+	for cell in Shared.cells[block.type].filter_value(1):
+		var pos = origin_of_tilemap + block_spawn_pos + cell
+		set_cell(layer, pos, -1, Shared.tiles_pos[block.type])	
+
+func move_tetromino(block: Block):
+	clear_tetromino(block)
+	var result = grid_matrix.move_child_matrix(block.data, Vector2i(1, 0))
+	pass

@@ -1,43 +1,43 @@
 extends Node
 
 # 七种不同形状的方块
-enum Tetromino { I, J, L, O, S, T, Z}
+enum Tetromino { I = 1, J = 2, L = 3, O = 4, S = 5, T = 6, Z = 7}
 
 var cells = {
 	Tetromino.I: Matrix2D.new(4, 4, 0, [
 		[0, 0, 0, 0],
-		[1, 1, 1, 1],
+		[Tetromino.I, Tetromino.I, Tetromino.I, Tetromino.I],
 		[0, 0, 0, 0],
 		[0, 0, 0, 0]
 	]),
 	Tetromino.J: Matrix2D.new(3, 3, 0, [
-		[1, 0, 0],
-		[1, 1, 1],
+		[Tetromino.J, 0, 0],
+		[Tetromino.J, Tetromino.J, Tetromino.J],
 		[0, 0, 0]
 	]),
 	Tetromino.L: Matrix2D.new(3, 3, 0, [
-		[0, 0, 1],
-		[1, 1, 1],
+		[0, 0, Tetromino.L],
+		[Tetromino.L, Tetromino.L, Tetromino.L],
 		[0, 0, 0]
 	]),
 	Tetromino.O: Matrix2D.new(3, 3, 0, [
-		[0, 1, 1],
-		[0, 1, 1],
+		[0, Tetromino.O, Tetromino.O],
+		[0, Tetromino.O, Tetromino.O],
 		[0, 0, 0]
 	]),
 	Tetromino.S: Matrix2D.new(3, 3, 0, [
-		[0, 1, 1],
-		[1, 1, 0],
+		[0, Tetromino.S, Tetromino.S],
+		[Tetromino.S, Tetromino.S, 0],
 		[0, 0, 0]
 	]),
 	Tetromino.T: Matrix2D.new(3, 3, 0, [
-		[0, 1, 0],
-		[1, 1, 1],
+		[0, Tetromino.T, 0],
+		[Tetromino.T, Tetromino.T, Tetromino.T],
 		[0, 0, 0]
 	]),
 	Tetromino.Z: Matrix2D.new(3, 3, 0, [
-		[1, 1, 0],
-		[0, 1, 1],
+		[Tetromino.Z, Tetromino.Z, 0],
+		[0, Tetromino.Z, Tetromino.Z],
 		[0, 0, 0]
 	])
 }
