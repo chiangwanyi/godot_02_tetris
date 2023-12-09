@@ -4,19 +4,19 @@ extends "res://Utils/state_machine/state_machine.gd"
 @onready var game_playing_state: IState = $Playing
 
 func _ready():
-	# var base = Matrix2D.new(10, 10, 0)
-	# var a = Matrix2D.new(3, 3, 0, [
-	# 	[1, 1, 1],
-	# 	[1, 0, 1],
-	# 	[1, 1, 1]
-	# ])
-	# var b = Matrix2D.new(2, 2, 0, [
-	# 	[2, 2],
-	# 	[2, 2]
-	# ])
-	# base.add_child_matrix(a, Vector2i(0, 0))
-	# base.add_child_matrix(b, Vector2i(3, 3))
-	# base.print_matrix()
+	#var base = Matrix2D.new(10, 10, 0)
+	#var a = Shared.cells[Shared.Tetromino.J]
+	#var b = Shared.cells[Shared.Tetromino.Z]
+	#base.add_child_matrix(a, Vector2i(0, 0))
+	#base.add_child_matrix(b, Vector2i(3, 0))
+	#base.print_matrix()
+	#print("==========")
+	#base.clear_child_data(a)
+	#base.set_child_data(a, base.child_pos_map[a])
+	#base.move_child_matrix_orthogonally(a, Vector2i(1, 0))
+	#base.print_matrix()
+
+	
 	# print(base.move_child_matrix(a, Vector2i(1, 0)))
 	# base.print_matrix()
 	# print(base.move_child_matrix(a, Vector2i(1, 0)))
