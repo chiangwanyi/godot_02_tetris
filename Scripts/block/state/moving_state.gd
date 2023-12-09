@@ -1,6 +1,7 @@
 extends "res://Utils/state_machine/state.gd"
 
 @onready var grid: Grid = $"../../Grid"
+
 var move_frequency_horizontal = 0.1 # 水平移动频率，以秒为单位
 var move_frequency_vertical = 0.025 # 垂直移动频率，以秒为单位
 var drop_frequency_vertical = 1 # 掉落移动频率，以秒为单位
@@ -37,14 +38,17 @@ func update(delta):
 		move_tetromino_down()
 		time_since_last_move_down = 0.0
 
-	if elapsed_time >= drop_frequency_vertical and not Input.is_action_pressed("move_down"):
-		move_tetromino_down()
-		elapsed_time = 0
+	# if elapsed_time >= drop_frequency_vertical and not Input.is_action_pressed("move_down"):
+	# 	move_tetromino_down()
+	# 	elapsed_time = 0
 
 
 func move_tetromino_down():
-	grid.move_tetromino(grid.moving_block, Vector2i(0, 1))
-	grid.draw()	
+	var result = grid.move_tetromino(grid.moving_block, Vector2i(0, 1))
+	grid.draw()
+	if not result:
+		emit_signal("finished", "spawning")
+
 
 func move_tetromino_right():
 	grid.move_tetromino(grid.moving_block, Vector2i(1, 0))

@@ -37,15 +37,6 @@ func get_value(_x: int, _y: int) -> Variant:
 func set_value(_x: int, _y: int, value: int) -> void:
 	data[_y][_x] = value
 
-# 查找矩阵中所有值与target相同的点，并返回他们的坐标
-func filter_value(target: Variant) -> Array[Vector2i]:
-	var result: Array[Vector2i] = []
-	for i in range(y):
-		for j in range(x):
-			if data[i][j] == target:
-				result.append(Vector2i(j, i)) # 添加坐标到结果数组，注意列是x坐标，行是y坐标
-	return result
-
 # 值是否相斥
 func is_value_exclude(v1: Variant, v2: Variant) -> bool:
 	if v1 == 0 or v2 == 0:
@@ -56,7 +47,6 @@ func print_matrix():
 	for i in range(y):
 		print(data[i])
 
-			
 # 添加子矩阵
 func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 	# 检查子矩阵是否超出当前矩阵范围
@@ -64,10 +54,8 @@ func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 		Logger.warn(self, "add child matrix failed: out of bound", [])
 		return false
 
-	# 检查子矩阵是否与现有子矩阵重叠
-	for target in children:
-		if not is_non_overlapping(child, origin_offset, target):
-			return false
+	if is_overlapping(child, origin_offset):
+		return false
 
 	# 添加子矩阵
 	children.append(child)
@@ -78,7 +66,7 @@ func add_child_matrix(child: Matrix2D, origin_offset: Vector2i) -> bool:
 		for j in range(child.x):
 			set_value(origin_offset.x + j, origin_offset.y + i, child.get_value(j, i))
 	Logger.info(self, "add child matrix successful", [])			
-	return true
+	return true	
 
 # 移动子矩阵，以正交的方式
 func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> bool:
@@ -110,11 +98,8 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 		if direction.y != 0:
 			temp_position.y += sign(direction.y) # 移动一步
 
-		for target in children:
-			if target == child:
-				continue # 跳过当前子矩阵自身
-			if not is_non_overlapping(temp_child, temp_position, target):
-				return false # 如果移动路径上有障碍物，则移动失败
+		if is_overlapping(temp_child, temp_position):
+			return false # 如果移动路径上有障碍物，则移动失败
 
 	# 执行移动
 	child_origin_offset[child] = new_position
@@ -130,23 +115,11 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 	return true
 
 
-# 判断child矩阵放置到origin_offset时是否与target矩阵重叠
-func is_non_overlapping(child: Matrix2D, origin_offset: Vector2i, target: Matrix2D) -> bool:
-	# 获取target矩阵的原点偏移量
-	var target_origin_offset = child_origin_offset[target]
+# 判断child矩阵放置到origin_offset时是否与该位置的值重叠（用is_value_exclude判断，返回true表示重叠）
+func is_overlapping(child: Matrix2D, origin_offset: Vector2i) -> bool:
+	# 先从逻辑上将child从父矩阵data中移除（若child在children中）
 
-	# 计算child矩阵的右下角坐标
-	var child_bottom_right = Vector2i(origin_offset.x + child.x - 1, origin_offset.y + child.y - 1)
-	# 计算target矩阵的右下角坐标
-	var target_bottom_right = Vector2i(target_origin_offset.x + target.x - 1, target_origin_offset.y + target.y - 1)
-
-	# 检查矩阵是否重叠
-	# 如果child矩阵的左上角在target矩阵的右下角的右边或下边，或者
-	# child矩阵的右下角在target矩阵的左上角的左边或上边，则这两个矩阵不重叠
-	if origin_offset.x > target_bottom_right.x or origin_offset.y > target_bottom_right.y or child_bottom_right.x < target_origin_offset.x or child_bottom_right.y < target_origin_offset.y:
-		return true
-
-	# 如果以上条件都不满足，则说明矩阵重叠
+	# 判断新位置是否重叠
 	return false
 
 

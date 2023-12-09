@@ -34,5 +34,5 @@ func draw():
 			if grid_matrix.data[i][j] != grid_matrix.empty_value:
 				set_cell(layer, pos, 0, Shared.tiles_pos[grid_matrix.data[i][j]])
 
-func move_tetromino(block: Block, direction: Vector2i):
-	grid_matrix.move_child_matrix_orthogonally(block.data, direction)
+func move_tetromino(block: Block, direction: Vector2i) -> bool:
+	return grid_matrix.move_child_matrix_orthogonally(block.data, direction)
