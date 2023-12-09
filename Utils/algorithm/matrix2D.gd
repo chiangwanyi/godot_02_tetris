@@ -39,14 +39,10 @@ func set_value(_x: int, _y: int, value: int) -> void:
 
 # 判断child矩阵放置到child_pos时是否与该位置的值重叠（用is_value_exclude判断，返回true表示重叠）
 func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
-	#Logger.info(self, "start check is overlapping")
 	# 先从逻辑上将child从父矩阵data中移除（若child在children中）
 	if children.has(child):
-		#print("clearing...")
 		clear_child_data(child)
 		
-	#print_matrix()	
-
 	var result = false
 	for i in range(child.y):
 		for j in range(child.x):
@@ -60,7 +56,6 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	if result:
 		Logger.warn(self, "is_overlapping")
 	# 判断新位置是否重叠
-	#Logger.info(self, "end check is overlapping")	
 	return result
 
 # 值是否相斥
@@ -75,7 +70,6 @@ func print_matrix():
 
 # 添加子矩阵
 func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
-	#Logger.info(self, "start add childe")
 	# 检查子矩阵是否超出当前矩阵范围
 	if child_pos.x < 0 or child_pos.x + child.x > x or child_pos.y < 0 or child_pos.y + child.y > y:
 		Logger.warn(self, "add child matrix failed: out of bound", [])
@@ -90,8 +84,6 @@ func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
 
 	# 更新父矩阵值
 	set_child_data(child, child_pos)
-	#Logger.info(self, "add child matrix successful")
-	#print(children)
 	return true
 
 func set_child_data(child: Matrix2D, pos: Vector2i):
@@ -148,8 +140,6 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 		if is_overlapping(child, temp_position):
 			return false # 如果移动路径上有障碍物，则移动失败
 		
-		#clear_child_data(temp_child)
-
 	# 更新父矩阵值
 	clear_child_data(child)
 
