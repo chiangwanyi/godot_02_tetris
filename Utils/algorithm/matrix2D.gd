@@ -39,10 +39,10 @@ func set_value(_x: int, _y: int, value: int) -> void:
 
 # 判断child矩阵放置到child_pos时是否与该位置的值重叠（用is_value_exclude判断，返回true表示重叠）
 func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
-	Logger.info(self, "start check is overlapping")
+	#Logger.info(self, "start check is overlapping")
 	# 先从逻辑上将child从父矩阵data中移除（若child在children中）
 	if children.has(child):
-		print("clearing...")
+		#print("clearing...")
 		clear_child_data(child)
 		
 	#print_matrix()	
@@ -60,14 +60,14 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	if result:
 		Logger.warn(self, "is_overlapping")
 	# 判断新位置是否重叠
-	Logger.info(self, "end check is overlapping")	
+	#Logger.info(self, "end check is overlapping")	
 	return result
 
 # 值是否相斥
 func is_value_exclude(v1: Variant, v2: Variant) -> bool:
 	if v1 == 0 or v2 == 0:
 		return false
-	return v1 == v2
+	return true
 
 func print_matrix():
 	for i in range(y):
@@ -75,7 +75,7 @@ func print_matrix():
 
 # 添加子矩阵
 func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
-	Logger.info(self, "start add childe")
+	#Logger.info(self, "start add childe")
 	# 检查子矩阵是否超出当前矩阵范围
 	if child_pos.x < 0 or child_pos.x + child.x > x or child_pos.y < 0 or child_pos.y + child.y > y:
 		Logger.warn(self, "add child matrix failed: out of bound", [])
@@ -90,21 +90,25 @@ func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
 
 	# 更新父矩阵值
 	set_child_data(child, child_pos)
-	Logger.info(self, "add child matrix successful")
-	print(children)
+	#Logger.info(self, "add child matrix successful")
+	#print(children)
 	return true
 
 func set_child_data(child: Matrix2D, pos: Vector2i):
 	for i in range(child.y):
 		for j in range(child.x):
-			set_value(pos.x + j, pos.y + i, child.get_value(j, i))
+			var value = child.get_value(j, i)
+			if value != empty_value:
+				set_value(pos.x + j, pos.y + i, value)
 
 func clear_child_data(child: Matrix2D):
 	var current_position: Vector2i = child_pos_map[child]
 
 	for i in range(child.y):
 		for j in range(child.x):
-			set_value(current_position.x + j, current_position.y + i, empty_value)
+			var value = child.get_value(j, i)
+			if value != empty_value:			
+				set_value(current_position.x + j, current_position.y + i, empty_value)
 
 func update_child_data(child: Matrix2D, pos: Vector2i):
 	clear_child_data(child)
@@ -152,9 +156,7 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 	# 执行移动
 	child_pos_map[child] = new_position
 
-	for i in range(child.y):
-		for j in range(child.x):
-			set_value(new_position.x + j, new_position.y + i, child.get_value(j, i))			
+	set_child_data(child, new_position)
 	return true
 
 func get_class_name():
