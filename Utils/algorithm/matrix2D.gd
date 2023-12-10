@@ -46,7 +46,10 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	var result = false
 	for i in range(child.col):
 		for j in range(child.row):
-			if is_value_exclude(child.get_value(j, i), get_value(child_pos.x + j, child_pos.y + i)):
+			var value = child.get_value(j, i)
+			if value == empty_value:
+				continue
+			if is_value_exclude(value, get_value(child_pos.x + j, child_pos.y + i)):
 				result = true
 				break
 	
