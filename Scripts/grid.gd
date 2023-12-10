@@ -36,3 +36,6 @@ func draw():
 
 func move_tetromino(block: Block, direction: Vector2i) -> bool:
 	return grid_matrix.move_child_matrix_orthogonally(block.data, direction)
+
+func rotate_tetromino_clockwise(block: Block) -> bool:
+	return grid_matrix.rotate_child_clockwise(block.data)

@@ -14,13 +14,13 @@ var children: Array[Matrix2D] = []
 var child_pos_map = {}
 
 # _init 初始化一个 y 行 x 列的二维矩阵。
-func _init(_x: int, _y: int, _empty_value: Variant = 0, init_data: Array[Array] = []):
-	row = _x
-	col = _y
+func _init(x: int, y: int, _empty_value: Variant = 0, init_data: Array[Array] = []):
+	row = x
+	col = y
 	empty_value = _empty_value
-	for i in range(_y):
+	for i in range(y):
 		var rows = []
-		for j in range(_x):
+		for j in range(x):
 			if init_data.is_empty():
 				rows.append(_empty_value)  # 初始化所有元素为0
 			else:
@@ -31,11 +31,11 @@ func duplicate() -> Matrix2D:
 	var dup = Matrix2D.new(row, col, empty_value, data)
 	return dup
 
-func get_value(_x: int, _y: int) -> Variant:
-	return data[_y][_x]
+func get_value(x: int, y: int) -> Variant:
+	return data[y][x]
 
-func set_value(_x: int, _y: int, value: int) -> void:
-	data[_y][_x] = value
+func set_value(x: int, y: int, value: int) -> void:
+	data[y][x] = value
 
 # 判断child矩阵放置到child_pos时是否与该位置的值重叠（用is_value_exclude判断，返回true表示重叠）
 func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
@@ -121,6 +121,43 @@ func update_child_data(child: Matrix2D, pos: Vector2i):
 	clear_child_data(child)
 	set_child_data(child, pos)
 
+# 90°顺旋转矩阵
+func rotate_child_clockwise(child: Matrix2D) -> bool:
+	var result = true
+	if children.has(child):
+		clear_child_data(child)
+
+	# 获取当前子矩阵的位置
+	var current_position: Vector2i = child_pos_map[child]
+
+	# 创建旋转后的子矩阵
+	var rotated_child = Matrix2D.new(child.col, child.row, child.empty_value)
+
+	# 用旋转算法填充旋转后的子矩阵
+	for i in range(child.row):
+		for j in range(child.col):
+			var value = child.get_value(i, j)
+			rotated_child.set_value(child.col - 1 - j, i, value)
+
+	# 检查旋转后的子矩阵是否超出边界
+	if is_out_of_bound(rotated_child, current_position):
+		Logger.error(self, "Rotated child matrix is out of bounds.")
+		result = false
+
+	# 检查旋转后的子矩阵是否与其他子矩阵重叠
+	if result and is_overlapping(rotated_child, current_position):
+		Logger.error(self, "Rotated child matrix overlaps with other child matrices.")
+		result = false
+
+	if result:
+		set_child_data(rotated_child, current_position)
+		child.data = rotated_child.data
+		child.row = rotated_child.row
+		child.col = rotated_child.col
+	else:
+		set_child_data(child, current_position)
+
+	return result
 
 # 移动子矩阵，以正交的方式
 func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> bool:
