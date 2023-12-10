@@ -23,13 +23,13 @@ func set_tetromino(block: Block)-> bool:
 	return result
 
 func draw():
-	for i in range(grid_matrix.y):
-		for j in range(grid_matrix.x):
+	for i in range(grid_matrix.col):
+		for j in range(grid_matrix.row):
 			var pos = origin_of_tilemap + Vector2i(j, i)
 			set_cell(layer, pos, -1)
 
-	for i in range(grid_matrix.y):
-		for j in range(grid_matrix.x):
+	for i in range(grid_matrix.col):
+		for j in range(grid_matrix.row):
 			var pos = origin_of_tilemap + Vector2i(j, i)
 			if grid_matrix.data[i][j] != grid_matrix.empty_value:
 				set_cell(layer, pos, 0, Shared.tiles_pos[grid_matrix.data[i][j]])

@@ -3,9 +3,9 @@ class_name Matrix2D
 # 一个[x,y]矩阵（y行x列），[0,0]，即矩阵原点位于左上角
 var data: Array[Array] = []
 # 列数
-var x : int = 0
+var col : int = 0
 # 行数
-var y : int = 0
+var row : int = 0
 # 默认空值
 var empty_value: Variant = 0
 # 属于该矩阵的子矩阵，即矩阵A可重叠在矩阵B上，A是B的子矩阵
@@ -15,20 +15,20 @@ var child_pos_map = {}
 
 # _init 初始化一个 y 行 x 列的二维矩阵。
 func _init(_x: int, _y: int, _empty_value: Variant = 0, init_data: Array[Array] = []):
-	x = _x
-	y = _y
+	row = _x
+	col = _y
 	empty_value = _empty_value
 	for i in range(_y):
-		var row = []
+		var rows = []
 		for j in range(_x):
 			if init_data.is_empty():
-				row.append(_empty_value)  # 初始化所有元素为0
+				rows.append(_empty_value)  # 初始化所有元素为0
 			else:
-				row.append(init_data[i][j])
-		data.append(row)
+				rows.append(init_data[i][j])
+		data.append(rows)
 
 func duplicate() -> Matrix2D:
-	var dup = Matrix2D.new(x, y, empty_value, data)
+	var dup = Matrix2D.new(row, col, empty_value, data)
 	return dup
 
 func get_value(_x: int, _y: int) -> Variant:
@@ -44,8 +44,8 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 		clear_child_data(child)
 		
 	var result = false
-	for i in range(child.y):
-		for j in range(child.x):
+	for i in range(child.col):
+		for j in range(child.row):
 			if is_value_exclude(child.get_value(j, i), get_value(child_pos.x + j, child_pos.y + i)):
 				result = true
 				break
@@ -59,14 +59,14 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	return result
 
 func is_out_of_bound(child: Matrix2D, child_pos: Vector2i) -> bool:
-	for i in range(child.y):
-		for j in range(child.x):
+	for i in range(child.col):
+		for j in range(child.row):
 			var value = child.get_value(j, i)
 			if value == empty_value:
 				continue
 			var cx = child_pos.x + j
 			var cy = child_pos.y + i
-			if cx < 0 or cx >= x or cy < 0 or cy >= y:
+			if cx < 0 or cx >= row or cy < 0 or cy >= col:
 				Logger.info(self, "out of bound")
 				return true
 	return false
@@ -78,7 +78,7 @@ func is_value_exclude(v1: Variant, v2: Variant) -> bool:
 	return true
 
 func print_matrix():
-	for i in range(y):
+	for i in range(col):
 		print(data[i])
 
 # 添加子矩阵
@@ -99,8 +99,8 @@ func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
 	return true
 
 func set_child_data(child: Matrix2D, pos: Vector2i):
-	for i in range(child.y):
-		for j in range(child.x):
+	for i in range(child.col):
+		for j in range(child.row):
 			var value = child.get_value(j, i)
 			if value != empty_value:
 				set_value(pos.x + j, pos.y + i, value)
@@ -108,8 +108,8 @@ func set_child_data(child: Matrix2D, pos: Vector2i):
 func clear_child_data(child: Matrix2D):
 	var current_position: Vector2i = child_pos_map[child]
 
-	for i in range(child.y):
-		for j in range(child.x):
+	for i in range(child.col):
+		for j in range(child.row):
 			var value = child.get_value(j, i)
 			if value != empty_value:			
 				set_value(current_position.x + j, current_position.y + i, empty_value)
