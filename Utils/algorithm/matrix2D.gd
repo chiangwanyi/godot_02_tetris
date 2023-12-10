@@ -58,6 +58,19 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	# 判断新位置是否重叠
 	return result
 
+func is_out_of_bound(child: Matrix2D, child_pos: Vector2i) -> bool:
+	for i in range(child.y):
+		for j in range(child.x):
+			var value = child.get_value(j, i)
+			if value == empty_value:
+				continue
+			var cx = child_pos.x + j
+			var cy = child_pos.y + i
+			if cx < 0 or cx >= x or cy < 0 or cy >= y:
+				Logger.info(self, "out of bound")
+				return true
+	return false
+
 # 值是否相斥
 func is_value_exclude(v1: Variant, v2: Variant) -> bool:
 	if v1 == 0 or v2 == 0:
@@ -71,8 +84,7 @@ func print_matrix():
 # 添加子矩阵
 func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
 	# 检查子矩阵是否超出当前矩阵范围
-	if child_pos.x < 0 or child_pos.x + child.x > x or child_pos.y < 0 or child_pos.y + child.y > y:
-		Logger.warn(self, "add child matrix failed: out of bound", [])
+	if is_out_of_bound(child, child_pos):
 		return false
 
 	if is_overlapping(child, child_pos):
@@ -120,13 +132,13 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 	# 计算新位置
 	var new_position: Vector2i = current_position + direction
 
+	# 创建一个临时的子矩阵来模拟移动
+	var temp_child = child.duplicate()
+
 	# 检查新位置是否超出父矩阵边界
-	if new_position.x < 0 or new_position.x + child.x > x or new_position.y < 0 or new_position.y + child.y > y:
-		Logger.warn(self, "matrix out of bound")
+	if is_out_of_bound(temp_child, new_position):
 		return false
 
-	# 创建一个临时的子矩阵来模拟移动
-	#var temp_child = child.duplicate()
 	var temp_position: Vector2i = current_position
 
 	# 检查移动路径上是否有障碍物
