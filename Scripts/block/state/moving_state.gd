@@ -43,27 +43,33 @@ func update(delta):
 
 	if elapsed_time >= drop_frequency_vertical and not Input.is_action_pressed("move_down"):
 		move_tetromino_down()
-		print(grid.get_full_lines())
 		elapsed_time = 0
 
 
 func move_tetromino_down():
 	var result = grid.move_tetromino(grid.moving_block, Vector2i(0, 1))
 	grid.draw()
+	check_full_lines()
 	if not result:
 		emit_signal("finished", "spawning")
 
 func move_tetromino_right():
 	grid.move_tetromino(grid.moving_block, Vector2i(1, 0))
 	grid.draw()
+	check_full_lines()
 
 func move_tetromino_left():
 	grid.move_tetromino(grid.moving_block, Vector2i(-1, 0))
 	grid.draw()
+	check_full_lines()
 
 func rotate_tetromino_clockwise():
 	grid.rotate_tetromino_clockwise(grid.moving_block)
 	grid.draw()
+	check_full_lines()
+
+func check_full_lines():
+	print(grid.get_full_lines())
 
 func exit():
 	Logger.info(self, "exit moving", [])

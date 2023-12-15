@@ -11,7 +11,7 @@ var layer = 1
 
 var moving_block: Block
 
-var grid_matrix : Matrix2D = Matrix2D.new(10, 20)
+var grid_matrix : Matrix2D = Matrix2D.new(20, 10)
 
 func get_class_name():
 	return "grid"
@@ -23,15 +23,15 @@ func set_tetromino(block: Block)-> bool:
 	return result
 
 func draw():
-	for i in range(grid_matrix.col):
-		for j in range(grid_matrix.row):
+	for i in range(grid_matrix.rows):
+		for j in range(grid_matrix.columns):
 			var pos = origin_of_tilemap + Vector2i(j, i)
 			set_cell(layer, pos, -1)
 
-	for i in range(grid_matrix.col):
-		for j in range(grid_matrix.row):
-			var pos = origin_of_tilemap + Vector2i(j, i)
+	for i in range(grid_matrix.rows):
+		for j in range(grid_matrix.columns):
 			if grid_matrix.data[i][j] != grid_matrix.empty_value:
+				var pos = origin_of_tilemap + Vector2i(j, i)
 				set_cell(layer, pos, 0, Shared.tiles_pos[grid_matrix.data[i][j]])
 
 func move_tetromino(block: Block, direction: Vector2i) -> bool:
@@ -39,8 +39,8 @@ func move_tetromino(block: Block, direction: Vector2i) -> bool:
 
 func get_full_lines() -> Array[int]:
 	var result:Array[int] = []
-	for y in range(grid_matrix.col - 1, -1, -1):
-		if grid_matrix.is_full(Vector2i(0, y), grid_matrix.row, 1):
+	for y in range(grid_matrix.columns - 1, -1, -1):
+		if grid_matrix.is_full(Vector2i(0, y), grid_matrix.rows, 1):
 			result.append(y)
 	return result
 
