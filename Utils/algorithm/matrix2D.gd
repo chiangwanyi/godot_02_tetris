@@ -151,13 +151,6 @@ func add_child_matrix(child: Matrix2D, child_pos: Vector2i) -> bool:
 	set_child_data(child, child_pos)
 	return true
 
-func is_full(pos: Vector2i, width: int, height: int)-> bool:
-	for y in range(pos.y, pos.y + height):
-		for x in range(pos.x, pos.x + width - 1):
-			if get_value(x, y) == empty_value:
-				return false
-	return true
-
 # 90°顺旋转矩阵
 func rotate_child_clockwise(child: Matrix2D) -> bool:
 	var result = true
@@ -236,6 +229,21 @@ func move_child_matrix_orthogonally(child: Matrix2D, direction: Vector2i) -> boo
 	child_pos_map[child] = new_position
 
 	set_child_data(child, new_position)
+	return true
+
+# 判断在当前矩阵中，以pos为原点（左上角），尺寸为width * height的矩形范围内元素是否均为非empty_value
+func is_full(pos: Vector2i, width: int, height: int) -> bool:
+	# 检查矩形区域是否超出矩阵边界
+	if pos.x < 0 or pos.y < 0 or pos.x + width > self.columns or pos.y + height > self.rows:
+		return false
+
+	# 遍历矩形区域内的所有元素
+	for i in range(pos.y, pos.y + height):
+		for j in range(pos.x, pos.x + width):
+			if self.data[i][j] == self.empty_value:
+				return false
+
+	# 如果所有元素均不为empty_value，则返回true
 	return true
 
 func get_class_name():
