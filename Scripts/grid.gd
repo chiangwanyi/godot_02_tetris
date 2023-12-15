@@ -37,5 +37,12 @@ func draw():
 func move_tetromino(block: Block, direction: Vector2i) -> bool:
 	return grid_matrix.move_child_matrix_orthogonally(block.data, direction)
 
+func get_full_lines() -> Array[int]:
+	var result:Array[int] = []
+	for y in range(grid_matrix.col - 1, -1, -1):
+		if grid_matrix.is_full(Vector2i(0, y), grid_matrix.row, 1):
+			result.append(y)
+	return result
+
 func rotate_tetromino_clockwise(block: Block) -> bool:
 	return grid_matrix.rotate_child_clockwise(block.data)

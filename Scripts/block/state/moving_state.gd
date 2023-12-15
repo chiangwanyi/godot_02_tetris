@@ -43,6 +43,7 @@ func update(delta):
 
 	if elapsed_time >= drop_frequency_vertical and not Input.is_action_pressed("move_down"):
 		move_tetromino_down()
+		print(grid.get_full_lines())
 		elapsed_time = 0
 
 

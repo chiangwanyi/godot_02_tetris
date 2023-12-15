@@ -18,9 +18,9 @@ func _init(x: int, y: int, _empty_value: Variant = 0, init_data: Array[Array] = 
 	row = x
 	col = y
 	empty_value = _empty_value
-	for i in range(y):
+	for i in range(col):
 		var rows = []
-		for j in range(x):
+		for j in range(row):
 			if init_data.is_empty():
 				rows.append(_empty_value)  # 初始化所有元素为0
 			else:
@@ -61,6 +61,14 @@ func is_overlapping(child: Matrix2D, child_pos: Vector2i) -> bool:
 	# 判断新位置是否重叠
 	return result
 
+func is_full(pos: Vector2i, width: int, height: int)-> bool:
+	for y in range(pos.y, pos.y + height):
+		for x in range(pos.x, pos.x + width - 1):
+			if get_value(x, y) == empty_value:
+				return false
+	return true
+
+# child是否出界
 func is_out_of_bound(child: Matrix2D, child_pos: Vector2i) -> bool:
 	for i in range(child.col):
 		for j in range(child.row):
